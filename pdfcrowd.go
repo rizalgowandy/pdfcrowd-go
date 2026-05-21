@@ -39,7 +39,7 @@ import (
     "regexp"
 )
 
-const CLIENT_VERSION = "6.5.4"
+const CLIENT_VERSION = "6.6.0"
 
 type Error struct {
     message string
@@ -134,7 +134,7 @@ func newConnectionHelper(userName, apiKey string) connectionHelper {
     helper := connectionHelper{userName: userName, apiKey: apiKey}
     helper.resetResponseData()
     helper.setUseHttp(false)
-    helper.setUserAgent("pdfcrowd_go_client/6.5.4 (https://pdfcrowd.com)")
+    helper.setUserAgent("pdfcrowd_go_client/6.6.0 (https://pdfcrowd.com)")
     helper.retryCount = 1
     helper.converterVersion = "24.04"
     return helper
@@ -1233,6 +1233,12 @@ func (client *HtmlToPdfClient) SetDataTrimBlocks(value bool) *HtmlToPdfClient {
     return client
 }
 
+// See https://pdfcrowd.com/api/html-to-pdf-go/ref/#set_data_variable_markers
+func (client *HtmlToPdfClient) SetDataVariableMarkers(markers string) *HtmlToPdfClient {
+    client.fields["data_variable_markers"] = markers
+    return client
+}
+
 // See https://pdfcrowd.com/api/html-to-pdf-go/ref/#set_data_options
 func (client *HtmlToPdfClient) SetDataOptions(options string) *HtmlToPdfClient {
     client.fields["data_options"] = options
@@ -1885,6 +1891,12 @@ func (client *HtmlToImageClient) SetDataAutoEscape(value bool) *HtmlToImageClien
 // See https://pdfcrowd.com/api/html-to-image-go/ref/#set_data_trim_blocks
 func (client *HtmlToImageClient) SetDataTrimBlocks(value bool) *HtmlToImageClient {
     client.fields["data_trim_blocks"] = strconv.FormatBool(value)
+    return client
+}
+
+// See https://pdfcrowd.com/api/html-to-image-go/ref/#set_data_variable_markers
+func (client *HtmlToImageClient) SetDataVariableMarkers(markers string) *HtmlToImageClient {
+    client.fields["data_variable_markers"] = markers
     return client
 }
 
