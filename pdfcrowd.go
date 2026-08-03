@@ -39,7 +39,7 @@ import (
     "regexp"
 )
 
-const CLIENT_VERSION = "6.6.0"
+const CLIENT_VERSION = "6.7.0"
 
 type Error struct {
     message string
@@ -134,7 +134,7 @@ func newConnectionHelper(userName, apiKey string) connectionHelper {
     helper := connectionHelper{userName: userName, apiKey: apiKey}
     helper.resetResponseData()
     helper.setUseHttp(false)
-    helper.setUserAgent("pdfcrowd_go_client/6.6.0 (https://pdfcrowd.com)")
+    helper.setUserAgent("pdfcrowd_go_client/6.7.0 (https://pdfcrowd.com)")
     helper.retryCount = 1
     helper.converterVersion = "24.04"
     return helper
@@ -1116,6 +1116,25 @@ func (client *HtmlToPdfClient) SetKeywords(keywords string) *HtmlToPdfClient {
 // See https://pdfcrowd.com/api/html-to-pdf-go/ref/#set_extract_meta_tags
 func (client *HtmlToPdfClient) SetExtractMetaTags(value bool) *HtmlToPdfClient {
     client.fields["extract_meta_tags"] = strconv.FormatBool(value)
+    return client
+}
+
+// See https://pdfcrowd.com/api/html-to-pdf-go/ref/#set_conformance
+func (client *HtmlToPdfClient) SetConformance(conformance string) *HtmlToPdfClient {
+    client.fields["conformance"] = conformance
+    return client
+}
+
+// See https://pdfcrowd.com/api/html-to-pdf-go/ref/#set_tagged_pdf
+func (client *HtmlToPdfClient) SetTaggedPdf(value bool) *HtmlToPdfClient {
+    client.fields["tagged_pdf"] = strconv.FormatBool(value)
+    return client
+}
+
+// See https://pdfcrowd.com/api/html-to-pdf-go/ref/#add_attachment
+func (client *HtmlToPdfClient) AddAttachment(attachment string) *HtmlToPdfClient {
+    client.files["attachment_" + strconv.Itoa(client.fileId)] = attachment
+    client.fileId++
     return client
 }
 
@@ -2637,6 +2656,13 @@ func (client *PdfToPdfClient) SetUseMetadataFrom(index int) *PdfToPdfClient {
     return client
 }
 
+// See https://pdfcrowd.com/api/pdf-to-pdf-go/ref/#add_attachment
+func (client *PdfToPdfClient) AddAttachment(attachment string) *PdfToPdfClient {
+    client.files["attachment_" + strconv.Itoa(client.fileId)] = attachment
+    client.fileId++
+    return client
+}
+
 // See https://pdfcrowd.com/api/pdf-to-pdf-go/ref/#set_page_layout
 func (client *PdfToPdfClient) SetPageLayout(layout string) *PdfToPdfClient {
     client.fields["page_layout"] = layout
@@ -3219,6 +3245,13 @@ func (client *ImageToPdfClient) SetAuthor(author string) *ImageToPdfClient {
 // See https://pdfcrowd.com/api/image-to-pdf-go/ref/#set_keywords
 func (client *ImageToPdfClient) SetKeywords(keywords string) *ImageToPdfClient {
     client.fields["keywords"] = keywords
+    return client
+}
+
+// See https://pdfcrowd.com/api/image-to-pdf-go/ref/#add_attachment
+func (client *ImageToPdfClient) AddAttachment(attachment string) *ImageToPdfClient {
+    client.files["attachment_" + strconv.Itoa(client.fileId)] = attachment
+    client.fileId++
     return client
 }
 
